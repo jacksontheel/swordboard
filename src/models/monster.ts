@@ -7,6 +7,7 @@ export type Monster = {
   stats: Stats;
   alignment: Alignment;
   attacks: Attack[];
+  abilities?: Ability[];
 };
 
 export type Attack = {
@@ -17,7 +18,6 @@ export type Attack = {
   description: DiceString;
 };
 
-// TODO: add monster abilities
 export type Ability = {
   name: string;
   description: DiceString;

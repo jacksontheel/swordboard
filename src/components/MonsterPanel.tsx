@@ -105,21 +105,20 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
           })}
         </ul>
 
-        {/* TODO: Add monster abilities */}
-        {/* {monster.abilities.length > 0 && (
+        {monster.abilities != null && monster.abilities.length > 0 && (
           <p>
             <strong>Abilities</strong>
           </p>
         )}
         <ul>
-          {monster.abilities.map((a) => {
+          {monster.abilities?.map((a) => {
             return (
-              <li>
+              <li key={a.name}>
                 {a.name}: {<DiceText text={a.description}></DiceText>}
               </li>
             );
-          })} */}
-        {/* </ul> */}
+          })}
+        </ul>
       </div>
     </div>
   );
