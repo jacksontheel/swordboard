@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   const getInstruments = async () => {
-    const { data } = await supabase.from("Monsters").select();
+    const { data } = await supabase.from("Monsters").select().order('name');
     setMonsters(data?.map((d) => d.data) as Monster[]);
   };
 

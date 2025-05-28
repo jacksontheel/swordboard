@@ -38,6 +38,10 @@ export type PanelGridProps = {
 export function PanelGrid(props: PanelGridProps) {
   const currentLayouts: Layouts = {
     lg: generateCompactLayout(props.panels, cols.lg),
+    md: generateCompactLayout(props.panels, cols.md),
+    sm: generateCompactLayout(props.panels, cols.sm),
+    xs: generateCompactLayout(props.panels, cols.xs),
+    xxs: generateCompactLayout(props.panels, cols.xxs),
   };
 
   function generateCompactLayout(panels: Panel[], cols: number): Layout[] {
