@@ -7,7 +7,7 @@ import {
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { MonsterPanel } from "./MonsterPanel";
-import React from "react";
+import React, { useEffect } from "react";
 import type { Monster } from "../models/monster";
 
 const ResponsiveGrid = WidthProvider(Responsive);
@@ -28,48 +28,37 @@ const cols: { [key: string]: number } = {
   xxs: 2,
 };
 
-export type Panel = { id: string; w: number; h: number; monster: Monster };
+export type Panel = {
+  id: string;
+  w: number;
+  h: number;
+  x: number;
+  y: number;
+  monster: Monster;
+};
 
 export type PanelGridProps = {
   panels: Panel[];
   setPanels: React.Dispatch<React.SetStateAction<Panel[]>>;
+  setColSize: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export function PanelGrid(props: PanelGridProps) {
+  useEffect(() => {
+    const a = localStorage.getItem("layout");
+
+    if (a != null) {
+      props.setPanels(JSON.parse(a));
+    }
+  }, []);
+
   const currentLayouts: Layouts = {
-    lg: generateCompactLayout(props.panels, cols.lg),
-    md: generateCompactLayout(props.panels, cols.md),
-    sm: generateCompactLayout(props.panels, cols.sm),
-    xs: generateCompactLayout(props.panels, cols.xs),
-    xxs: generateCompactLayout(props.panels, cols.xxs),
+    lg: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
+    md: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
+    sm: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
+    xs: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
+    xxs: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
   };
-
-  function generateCompactLayout(panels: Panel[], cols: number): Layout[] {
-    let currentX = 0;
-    let currentY = 0;
-    let rowHeight = 0;
-
-    return panels.reduce<Layout[]>((layout, panel) => {
-      if (currentX + panel.w > cols) {
-        currentX = 0;
-        currentY += rowHeight;
-        rowHeight = 0;
-      }
-
-      layout.push({
-        i: panel.id,
-        x: currentX,
-        y: currentY,
-        w: panel.w,
-        h: panel.h,
-      });
-
-      currentX += panel.w;
-      rowHeight = Math.max(rowHeight, panel.h);
-
-      return layout;
-    }, []);
-  }
 
   return (
     <div style={{ width: "100%" }}>
@@ -83,15 +72,23 @@ export function PanelGrid(props: PanelGridProps) {
         isDraggable
         useCSSTransforms
         draggableHandle=".title-bar"
+        onBreakpointChange={(_, colSize) => props.setColSize(colSize)}
         onLayoutChange={(layout) => {
           props.setPanels((prev) =>
             prev.map((p) => {
               const updated = layout.find((l) => l.i === p.id);
               return updated
-                ? { ...p, w: updated.w, h: updated.h, layout: updated }
+                ? {
+                    ...p,
+                    x: updated.x,
+                    y: updated.y,
+                    w: updated.w,
+                    h: updated.h,
+                  }
                 : p;
             }),
           );
+          localStorage.setItem("layout", JSON.stringify(props.panels));
         }}
       >
         {props.panels.map((p) => (

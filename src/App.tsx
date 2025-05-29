@@ -14,27 +14,75 @@ const supabase = createClient(
 function App() {
   const [panels, setPanels] = useState<Panel[]>([]);
   const [monsters, setMonsters] = useState<Monster[]>([]);
+  const [colSize, setColSize] = useState(12)
 
   useEffect(() => {
     getInstruments();
   }, []);
 
   const getInstruments = async () => {
-    const { data } = await supabase.from("Monsters").select().order('name');
+    const { data } = await supabase.from("Monsters").select().order("name");
     setMonsters(data?.map((d) => d.data) as Monster[]);
   };
 
   const addMonsterPanel = (monster: Monster) => {
     setPanels((prev) => {
       const nextId = crypto.randomUUID();
-      return [...prev, { id: nextId, w: 3, h: 3, monster }];
+      const nextAvailable = findFirstAvailableSpot(prev, colSize, 3, 3);
+      return [
+        ...prev,
+        {
+          id: nextId,
+          w: 3,
+          h: 3,
+          x: nextAvailable.x,
+          y: nextAvailable.y,
+          monster,
+        },
+      ];
     });
+  };
+
+  const findFirstAvailableSpot = (
+    existing: Panel[],
+    cols: number,
+    panelW: number,
+    panelH: number,
+  ): { x: number; y: number } => {
+    const occupied: Set<string> = new Set();
+
+    for (const panel of existing) {
+      const { x = 0, y = 0, w, h } = panel;
+      for (let dx = 0; dx < w; dx++) {
+        for (let dy = 0; dy < h; dy++) {
+          occupied.add(`${x + dx},${y + dy}`);
+        }
+      }
+    }
+
+    for (let y = 0; y < 100; y++) {
+      for (let x = 0; x <= cols - panelW; x++) {
+        let fits = true;
+        for (let dx = 0; dx < panelW; dx++) {
+          for (let dy = 0; dy < panelH; dy++) {
+            if (occupied.has(`${x + dx},${y + dy}`)) {
+              fits = false;
+              break;
+            }
+          }
+          if (!fits) break;
+        }
+        if (fits) return { x, y };
+      }
+    }
+
+    return { x: 0, y: 100 };
   };
 
   return (
     <>
       <NavBar />
-      <PanelGrid panels={panels} setPanels={setPanels} />
+      <PanelGrid panels={panels} setPanels={setPanels} setColSize={setColSize} />
       <PanelBar addMonsterPanel={addMonsterPanel} monsters={monsters} />
     </>
   );
