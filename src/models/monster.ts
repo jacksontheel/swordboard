@@ -15,7 +15,7 @@ export type Attack = {
   perRound: number;
   range?: string;
   toHit?: number;
-  description: DiceString;
+  description?: DiceString;
 };
 
 export type Ability = {

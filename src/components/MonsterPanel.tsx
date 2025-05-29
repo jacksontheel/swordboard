@@ -99,7 +99,7 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
               <li key={a.name}>
                 {a.perRound} {a.name} {a.range != null ? `(${a.range})` : ``}{" "}
                 {bonusToString(a.toHit ?? 0)}{" "}
-                {<DiceText text={a.description}></DiceText>}
+                {a.description && <DiceText text={a.description}></DiceText>}
               </li>
             );
           })}
