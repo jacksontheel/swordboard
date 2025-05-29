@@ -19,10 +19,10 @@ export function PanelBar(props: PanelBarProps) {
         <div className="title-bar">
           <div className="title-bar-text">Monsters</div>
         </div>
-        <div className="window-body">
+        <div className="window-body" style={windowBodyStyle}>
           {isOpen && (
             <>
-              <div>
+              <div style={searchHeaderStyle}>
                 <label htmlFor="monsterSearch">Filter</label>
                 <input
                   id="monsterSearch"
@@ -31,34 +31,35 @@ export function PanelBar(props: PanelBarProps) {
                   onChange={(e) => setFilter(e.target.value)}
                   type="text"
                 />
+                <hr />
               </div>
 
-              <hr></hr>
-
-              {props.monsters
-                .filter((m) => {
-                  return (
-                    Number(filter) === m.level ||
-                    m.name.toLowerCase().includes(filter.toLowerCase())
-                  );
-                })
-                .map((m) => (
-                  <div key={m.name} className="window">
-                    <div className="window-body">
-                      <div style={monsterBoxStyle}>
-                        <p>
-                          {m.name}, level {m.level}
-                        </p>
-                        <button
-                          onClick={() => props.addMonsterPanel(m)}
-                          style={addMonsterButton}
-                        >
-                          +
-                        </button>
+              <div style={scrollContainerStyle}>
+                {props.monsters
+                  .filter((m) => {
+                    return (
+                      Number(filter) === m.level ||
+                      m.name.toLowerCase().includes(filter.toLowerCase())
+                    );
+                  })
+                  .map((m) => (
+                    <div key={m.name} className="window">
+                      <div className="window-body">
+                        <div style={monsterBoxStyle}>
+                          <p>
+                            {m.name}, level {m.level}
+                          </p>
+                          <button
+                            onClick={() => props.addMonsterPanel(m)}
+                            style={addMonsterButton}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </>
           )}
         </div>
@@ -84,7 +85,7 @@ const sidebarStyle: React.CSSProperties = {
   boxSizing: "border-box",
   transition: "width 0.3s ease, padding 0.3s ease",
   zIndex: 1000,
-  boxShadow: "-6px 0 12px rgba(0, 0, 0, 0.5)"
+  boxShadow: "-6px 0 12px rgba(0, 0, 0, 0.5)",
 };
 
 const toggleButtonStyle: React.CSSProperties = {
@@ -110,3 +111,20 @@ const addMonsterButton: React.CSSProperties = {
 const searchTextBoxStyle: React.CSSProperties = {
   color: "black",
 };
+
+const windowBodyStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+};
+
+const searchHeaderStyle: React.CSSProperties = {
+  flexShrink: 0,
+  paddingBottom: "0.5rem",
+};
+
+const scrollContainerStyle: React.CSSProperties = {
+  overflowY: "auto",
+  flexGrow: 1,
+};
+

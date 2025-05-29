@@ -14,7 +14,7 @@ const supabase = createClient(
 function App() {
   const [panels, setPanels] = useState<Panel[]>([]);
   const [monsters, setMonsters] = useState<Monster[]>([]);
-  const [colSize, setColSize] = useState(12)
+  const [colSize, setColSize] = useState(12);
 
   useEffect(() => {
     getInstruments();
@@ -82,7 +82,11 @@ function App() {
   return (
     <>
       <NavBar />
-      <PanelGrid panels={panels} setPanels={setPanels} setColSize={setColSize} />
+      <PanelGrid
+        panels={panels}
+        setPanels={setPanels}
+        setColSize={setColSize}
+      />
       <PanelBar addMonsterPanel={addMonsterPanel} monsters={monsters} />
     </>
   );
