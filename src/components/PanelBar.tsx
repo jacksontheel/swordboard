@@ -84,6 +84,7 @@ const sidebarStyle: React.CSSProperties = {
   boxSizing: "border-box",
   transition: "width 0.3s ease, padding 0.3s ease",
   zIndex: 1000,
+  boxShadow: "-6px 0 12px rgba(0, 0, 0, 0.5)"
 };
 
 const toggleButtonStyle: React.CSSProperties = {
