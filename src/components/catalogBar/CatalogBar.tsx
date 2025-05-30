@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Monster } from "../../models/monster";
-import { CatalogSection } from "./catalogSection";
+import { CatalogSection } from "./CatalogSection";
 
 export type CatalogBarProps = {
   monsters: Monster[];
