@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { PanelBar } from "./components/PanelBar";
 import { PanelGrid, type Panel } from "./components/PanelGrid";
 import type { Monster } from "./models/monster";
 import { createClient } from "@supabase/supabase-js";
 import { NavBar } from "./components/NavBar";
+import { CatalogBar } from "./components/catalogBar/CatalogBar";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -87,7 +87,7 @@ function App() {
         setPanels={setPanels}
         setColSize={setColSize}
       />
-      <PanelBar addMonsterPanel={addMonsterPanel} monsters={monsters} />
+      <CatalogBar addMonsterPanel={addMonsterPanel} monsters={monsters} />
     </>
   );
 }

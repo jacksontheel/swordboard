@@ -1,4 +1,6 @@
-export type Monster = {
+import type { PanelContent } from "./panelContent";
+
+export type Monster = PanelContent & {
   name: string;
   ac: string;
   hp: string;
