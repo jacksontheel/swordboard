@@ -1,14 +1,11 @@
-import {
-  Responsive,
-  WidthProvider,
-  type Layout,
-  type Layouts,
-} from "react-grid-layout";
+import { Responsive, WidthProvider, type Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { MonsterPanel } from "./MonsterPanel";
 import React, { useEffect } from "react";
-import type { Monster } from "../models/monster";
+import { type Monster } from "../models/monster";
+import { MonsterPanel } from "./panels/MonsterPanel";
+import type { PanelContent } from "../models/panelContent";
+import { TorchTimerPanel } from "./panels/TorchTimerPanel";
 
 const ResponsiveGrid = WidthProvider(Responsive);
 
@@ -28,22 +25,22 @@ const cols: { [key: string]: number } = {
   xxs: 2,
 };
 
-export type Panel = {
+export type Panel<T extends PanelContent> = {
   id: string;
   w: number;
   h: number;
   x: number;
   y: number;
-  monster: Monster;
+  content: T;
 };
 
-export type PanelGridProps = {
-  panels: Panel[];
-  setPanels: React.Dispatch<React.SetStateAction<Panel[]>>;
+export type PanelGridProps<T extends PanelContent> = {
+  panels: Panel<T>[];
+  setPanels: React.Dispatch<React.SetStateAction<Panel<T>[]>>;
   setColSize: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function PanelGrid(props: PanelGridProps) {
+export function PanelGrid<T extends PanelContent>(props: PanelGridProps<T>) {
   useEffect(() => {
     const a = localStorage.getItem("layout");
 
@@ -60,6 +57,32 @@ export function PanelGrid(props: PanelGridProps) {
     xxs: props.panels.map((p) => ({ i: p.id, x: p.x, y: p.y, w: p.w, h: p.h })),
   };
 
+  const renderPanel = (p: Panel<T>) => {
+    switch (p.content.type) {
+      case "monster":
+        return (
+          <MonsterPanel
+            monster={p.content as unknown as Monster}
+            closeCallback={() => {
+              props.setPanels((prev) =>
+                prev.filter((prevP) => prevP.id !== p.id),
+              );
+            }}
+          />
+        );
+      case "torchTimer":
+        return (
+          <TorchTimerPanel
+            closeCallback={() => {
+              props.setPanels((prev) =>
+                prev.filter((prevP) => prevP.id !== p.id),
+              );
+            }}
+          ></TorchTimerPanel>
+        );
+    }
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <ResponsiveGrid
@@ -67,7 +90,7 @@ export function PanelGrid(props: PanelGridProps) {
         layouts={currentLayouts}
         breakpoints={breakpoints}
         cols={cols}
-        rowHeight={100}
+        rowHeight={64}
         isResizable
         isDraggable
         useCSSTransforms
@@ -91,18 +114,13 @@ export function PanelGrid(props: PanelGridProps) {
           localStorage.setItem("layout", JSON.stringify(props.panels));
         }}
       >
-        {props.panels.map((p) => (
-          <div key={p.id} style={boxStyle}>
-            <MonsterPanel
-              monster={p.monster}
-              closeCallback={() => {
-                props.setPanels((prev) =>
-                  prev.filter((prevP) => prevP.id !== p.id),
-                );
-              }}
-            />
-          </div>
-        ))}
+        {props.panels.map((p) => {
+          return (
+            <div key={p.id} style={boxStyle}>
+              {renderPanel(p)}
+            </div>
+          );
+        })}
       </ResponsiveGrid>
     </div>
   );
