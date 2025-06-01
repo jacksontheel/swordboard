@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import { NavBar } from "./components/NavBar";
 import { CatalogBar } from "./components/catalogBar/CatalogBar";
 import { torchTimerContent } from "./models/panelContent";
+import { Footer } from "./components/Footer";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -101,20 +102,34 @@ function App() {
   };
 
   return (
-    <>
-      <NavBar />
-      <PanelGrid
-        panels={panels}
-        setPanels={setPanels}
-        setColSize={setColSize}
-      />
-      <CatalogBar
-        addMonsterPanel={addMonsterPanel}
-        addTorchTimerPanel={addTorchTimerPanel}
-        monsters={monsters}
-      />
-    </>
+    <div style={layoutStyle}>
+      <main style={mainStyle}>
+        <NavBar />
+        <PanelGrid
+          panels={panels}
+          setPanels={setPanels}
+          setColSize={setColSize}
+        />
+        <CatalogBar
+          addMonsterPanel={addMonsterPanel}
+          addTorchTimerPanel={addTorchTimerPanel}
+          monsters={monsters}
+        />
+      </main>
+      <Footer></Footer>
+    </div>
   );
 }
+
+const layoutStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+};
+
+const mainStyle: React.CSSProperties = {
+  flex: 1,
+  padding: "1rem",
+};
 
 export default App;
