@@ -52,16 +52,14 @@ export function TorchTimerPanel(props: TorchTimerPanelProps) {
           <strong>{formatTime(seconds)}</strong>
         </p>
         <div style={buttonRowStyle}>
-        <button onClick={() => setRunning((prev) => !prev)}>
-          {running ? "Pause" : "Play"}
-        </button>
-        <button onClick={() => setSeconds(60 * 60)}>
-          Reset
-        </button>
-        <div>
-        <button onClick={() => adjustTime(300)}>+5 min</button>
-        <button onClick={() => adjustTime(-300)}>-5 min</button>
-        </div>
+          <button onClick={() => setRunning((prev) => !prev)}>
+            {running ? "Pause" : "Play"}
+          </button>
+          <button onClick={() => setSeconds(60 * 60)}>Reset</button>
+          <div>
+            <button onClick={() => adjustTime(300)}>+5 min</button>
+            <button onClick={() => adjustTime(-300)}>-5 min</button>
+          </div>
         </div>
       </div>
     </div>
@@ -81,8 +79,8 @@ const windowBodyStyle: CSSProperties = {
 };
 
 const timerStyle: React.CSSProperties = {
-  textAlign: "center"
-}
+  textAlign: "center",
+};
 
 const buttonRowStyle: React.CSSProperties = {
   display: "flex",
