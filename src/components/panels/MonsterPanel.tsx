@@ -2,6 +2,7 @@ import "98.css";
 import type { CSSProperties } from "react";
 import type { Monster } from "../../models/monster";
 import { DiceText } from "../DiceText";
+import { ToHitButton } from "../ToHitButton";
 
 export type MonsterPanelProps = {
   monster: Monster;
@@ -99,7 +100,7 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
               <li key={a.name}>
                 {a.perRound} <strong>{a.name}</strong>{" "}
                 {a.range != null ? `(${a.range})` : ``}{" "}
-                {bonusToString(a.toHit ?? 0)}{" "}
+                {a.toHit != null && <ToHitButton toHit={a.toHit} text={bonusToString(a.toHit)}></ToHitButton> }
                 {a.description && <DiceText text={a.description}></DiceText>}
               </li>
             );
