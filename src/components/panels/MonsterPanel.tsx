@@ -1,11 +1,11 @@
 import "98.css";
 import type { CSSProperties } from "react";
-import { DiceText } from "./DiceText";
-import type { Monster } from "../models/monster";
+import type { Monster } from "../../models/monster";
+import { DiceText } from "../DiceText";
 
 export type MonsterPanelProps = {
   monster: Monster;
-  closeCallback?: () => void;
+  closeCallback: () => void;
 };
 
 export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
@@ -97,7 +97,8 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
           {monster.attacks.map((a) => {
             return (
               <li key={a.name}>
-                {a.perRound} {a.name} {a.range != null ? `(${a.range})` : ``}{" "}
+                {a.perRound} <strong>{a.name}</strong>{" "}
+                {a.range != null ? `(${a.range})` : ``}{" "}
                 {bonusToString(a.toHit ?? 0)}{" "}
                 {a.description && <DiceText text={a.description}></DiceText>}
               </li>
@@ -114,7 +115,8 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
           {monster.abilities?.map((a) => {
             return (
               <li key={a.name}>
-                {a.name}: {<DiceText text={a.description}></DiceText>}
+                <strong>{a.name}</strong>:{" "}
+                {<DiceText text={a.description}></DiceText>}
               </li>
             );
           })}

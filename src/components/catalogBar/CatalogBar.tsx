@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import type { Monster } from "../../models/monster";
 import { CatalogSection } from "./CatalogSection";
+import {
+  torchTimerContent,
+  type PanelContent,
+} from "../../models/panelContent";
 
 export type CatalogBarProps = {
   monsters: Monster[];
   addMonsterPanel: (monster: Monster) => void;
+  addTorchTimerPanel: () => void;
 };
 
 export function CatalogBar(props: CatalogBarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [filter, setFilter] = useState("");
   const [showMonsters, setShowMonsters] = useState(true);
+  const [showMisc, setShowMisc] = useState(true);
 
   return (
     <>
@@ -49,6 +55,17 @@ export function CatalogBar(props: CatalogBarProps) {
                   )}
                   addPanelFunction={props.addMonsterPanel}
                   panelTextFunction={(m: Monster) => `${m.name}, ${m.level}`}
+                />
+
+                <CatalogSection
+                  title={"Misc"}
+                  expanded={showMisc}
+                  setExpanded={setShowMisc}
+                  panelContent={[torchTimerContent].filter((t) =>
+                    t.name.toLowerCase().includes(filter.toLowerCase()),
+                  )}
+                  addPanelFunction={props.addTorchTimerPanel}
+                  panelTextFunction={(pc: PanelContent) => pc.name}
                 />
               </div>
             </>

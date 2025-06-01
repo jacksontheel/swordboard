@@ -5,6 +5,7 @@ import type { Monster } from "./models/monster";
 import { createClient } from "@supabase/supabase-js";
 import { NavBar } from "./components/NavBar";
 import { CatalogBar } from "./components/catalogBar/CatalogBar";
+import { torchTimerContent } from "./models/panelContent";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -12,7 +13,7 @@ const supabase = createClient(
 );
 
 function App() {
-  const [panels, setPanels] = useState<Panel[]>([]);
+  const [panels, setPanels] = useState<Panel<any>[]>([]);
   const [monsters, setMonsters] = useState<Monster[]>([]);
   const [colSize, setColSize] = useState(12);
 
@@ -22,7 +23,9 @@ function App() {
 
   const getInstruments = async () => {
     const { data } = await supabase.from("Monsters").select().order("name");
-    setMonsters(data?.map((d) => d.data) as Monster[]);
+    setMonsters(
+      data?.map((d) => ({ ...d.data, type: "monster" })) as Monster[],
+    );
   };
 
   const addMonsterPanel = (monster: Monster) => {
@@ -34,17 +37,35 @@ function App() {
         {
           id: nextId,
           w: 3,
-          h: 3,
+          h: 4,
           x: nextAvailable.x,
           y: nextAvailable.y,
-          monster,
+          content: monster,
+        },
+      ];
+    });
+  };
+
+  const addTorchTimerPanel = () => {
+    setPanels((prev) => {
+      const nextId = crypto.randomUUID();
+      const nextAvailable = findFirstAvailableSpot(prev, colSize, 3, 3);
+      return [
+        ...prev,
+        {
+          id: nextId,
+          w: 3,
+          h: 2,
+          x: nextAvailable.x,
+          y: nextAvailable.y,
+          content: torchTimerContent,
         },
       ];
     });
   };
 
   const findFirstAvailableSpot = (
-    existing: Panel[],
+    existing: Panel<any>[],
     cols: number,
     panelW: number,
     panelH: number,
@@ -87,7 +108,11 @@ function App() {
         setPanels={setPanels}
         setColSize={setColSize}
       />
-      <CatalogBar addMonsterPanel={addMonsterPanel} monsters={monsters} />
+      <CatalogBar
+        addMonsterPanel={addMonsterPanel}
+        addTorchTimerPanel={addTorchTimerPanel}
+        monsters={monsters}
+      />
     </>
   );
 }
