@@ -1,12 +1,8 @@
-import React, { useState, type CSSProperties } from "react";
+import React, { useState } from "react";
+import panelStyles from "./style/Panel.module.css"
 
 type DiceTextProps = {
   text: string;
-};
-
-const diceButtonStyle: CSSProperties = {
-  marginLeft: "4px",
-  minWidth: "0px",
 };
 
 export function DiceText({ text }: DiceTextProps) {
@@ -42,8 +38,8 @@ export function DiceText({ text }: DiceTextProps) {
 
     parts.push(
       <button
-        key="button"
-        style={diceButtonStyle}
+        key={`button-${index}`}
+        className={panelStyles["ink-dice-button"]}
         onClick={() => {
           setRolls((prev) => ({
             ...prev,

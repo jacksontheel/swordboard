@@ -1,6 +1,6 @@
-import "98.css";
 import { useEffect, useState, type CSSProperties } from "react";
 import { torchTimerContent } from "../../models/panelContent";
+import panelStyles from "../style/Panel.module.css";
 
 export type TorchTimerPanelProps = {
   closeCallback: () => void;
@@ -36,29 +36,52 @@ export function TorchTimerPanel(props: TorchTimerPanelProps) {
   };
 
   return (
-    <div className="window" style={windowStyle}>
-      <div className="title-bar">
-        <div className="title-bar-text">{torchTimerContent.name}</div>
-        <div className="title-bar-controls">
+    <div className={panelStyles["ink-panel"]} style={windowStyle}>
+      <div className={`${panelStyles["ink-header"]} ink-header`}>
+        <div className={panelStyles["ink-header-title"]}>
+          {torchTimerContent.name}
+        </div>
+        <div className={panelStyles["ink-header-controls"]}>
           <button
+            className={panelStyles["ink-button"]}
             aria-label="Close"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={props.closeCallback}
-          />
+          >
+            ✕
+          </button>
         </div>
       </div>
-      <div className="window-body" style={windowBodyStyle}>
+      <div className={panelStyles["ink-body"]} style={windowBodyStyle}>
         <p style={timerStyle}>
           <strong>{formatTime(seconds)}</strong>
         </p>
         <div style={buttonRowStyle}>
-          <button onClick={() => setRunning((prev) => !prev)}>
+          <button
+            className={panelStyles["ink-button"]}
+            onClick={() => setRunning((prev) => !prev)}
+          >
             {running ? "Pause" : "Play"}
           </button>
-          <button onClick={() => setSeconds(60 * 60)}>Reset</button>
+          <button
+            className={panelStyles["ink-button"]}
+            onClick={() => setSeconds(60 * 60)}
+          >
+            Reset
+          </button>
           <div>
-            <button onClick={() => adjustTime(300)}>+5 min</button>
-            <button onClick={() => adjustTime(-300)}>-5 min</button>
+            <button
+              className={panelStyles["ink-button"]}
+              onClick={() => adjustTime(300)}
+            >
+              +5 min
+            </button>
+            <button
+              className={panelStyles["ink-button"]}
+              onClick={() => adjustTime(-300)}
+            >
+              -5 min
+            </button>
           </div>
         </div>
       </div>
