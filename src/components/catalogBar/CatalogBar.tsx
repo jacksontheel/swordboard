@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { Monster } from "../../models/monster";
 import { CatalogSection } from "./CatalogSection";
 import {
   torchTimerContent,
   type PanelContent,
 } from "../../models/panelContent";
+import panelStyles from "../style/Panel.module.css";
+import catalogStyles from "../style/Catalog.module.css";
 
 export type CatalogBarProps = {
   monsters: Monster[];
@@ -21,20 +23,20 @@ export function CatalogBar(props: CatalogBarProps) {
   return (
     <>
       <div
-        className="window"
-        style={{ ...sidebarStyle, width: isOpen ? "20vw" : "0" }}
+        className={catalogStyles["ink-sidebar"]}
+        style={{ width: isOpen ? "20vw" : "0" }}
       >
-        <div className="title-bar">
-          <div className="title-bar-text">Catalog</div>
+        <div className={panelStyles["ink-header"]}>
+          <div className={panelStyles["ink-header-title"]}>Catalog</div>
         </div>
-        <div className="window-body" style={windowBodyStyle}>
+        <div className={catalogStyles["ink-sidebar-body"]}>
           {isOpen && (
             <>
-              <div style={searchHeaderStyle}>
-                <label htmlFor="monsterSearch">Filter</label>
+              <div className={catalogStyles["catalog-search"]}>
+                <label htmlFor="monsterSearch">Filter:</label>
                 <input
                   id="monsterSearch"
-                  style={searchTextBoxStyle}
+                  className={catalogStyles["catalog-search-input"]}
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                   type="text"
@@ -42,86 +44,43 @@ export function CatalogBar(props: CatalogBarProps) {
                 <hr />
               </div>
 
-              <div style={scrollContainerStyle}>
-                {/* Monsters Section */}
-                <CatalogSection
-                  title={"Monsters"}
-                  expanded={showMonsters}
-                  setExpanded={setShowMonsters}
-                  panelContent={props.monsters.filter(
-                    (m) =>
-                      Number(filter) === m.level ||
-                      m.name.toLowerCase().includes(filter.toLowerCase()),
-                  )}
-                  addPanelFunction={props.addMonsterPanel}
-                  panelTextFunction={(m: Monster) => `${m.name}, ${m.level}`}
-                />
+                <div className={catalogStyles["catalog-scroll"]}>
+                  <CatalogSection
+                    title={"Misc"}
+                    expanded={showMisc}
+                    setExpanded={setShowMisc}
+                    panelContent={[torchTimerContent].filter((t) =>
+                      t.name.toLowerCase().includes(filter.toLowerCase()),
+                    )}
+                    addPanelFunction={props.addTorchTimerPanel}
+                    panelTextFunction={(pc: PanelContent) => pc.name}
+                  />
 
-                <CatalogSection
-                  title={"Misc"}
-                  expanded={showMisc}
-                  setExpanded={setShowMisc}
-                  panelContent={[torchTimerContent].filter((t) =>
-                    t.name.toLowerCase().includes(filter.toLowerCase()),
-                  )}
-                  addPanelFunction={props.addTorchTimerPanel}
-                  panelTextFunction={(pc: PanelContent) => pc.name}
-                />
-              </div>
+                  <CatalogSection
+                    title={"Monsters"}
+                    expanded={showMonsters}
+                    setExpanded={setShowMonsters}
+                    panelContent={props.monsters.filter(
+                      (m) =>
+                        Number(filter) === m.level ||
+                        m.name.toLowerCase().includes(filter.toLowerCase()),
+                    )}
+                    addPanelFunction={props.addMonsterPanel}
+                    panelTextFunction={(m: Monster) => `${m.name}, ${m.level}`}
+                  />
+                </div>
             </>
           )}
         </div>
       </div>
+
       <button
+        className={catalogStyles["ink-sidebar-toggle"]}
+        style={{ right: isOpen ? "20vw" : "0" }}
         onClick={() => setIsOpen(!isOpen)}
-        style={{ ...toggleButtonStyle, right: isOpen ? "20vw" : "0" }}
       >
         {isOpen ? "Collapse Catalog >" : "< Expand Catalog"}
       </button>
     </>
   );
 }
-
-const sidebarStyle: React.CSSProperties = {
-  position: "fixed",
-  top: 0,
-  right: 0,
-  height: "100vh",
-  borderLeft: "1px solid #ccc",
-  overflowX: "hidden",
-  overflowY: "auto",
-  boxSizing: "border-box",
-  transition: "width 0.3s ease, padding 0.3s ease",
-  zIndex: 1000,
-  boxShadow: "-6px 0 12px rgba(0, 0, 0, 0.5)",
-};
-
-const toggleButtonStyle: React.CSSProperties = {
-  position: "fixed",
-  top: "1rem",
-  minWidth: "0px",
-  zIndex: 1001,
-  padding: "0.5rem",
-  cursor: "pointer",
-  transition: "right 0.3s ease",
-};
-
-const searchTextBoxStyle: React.CSSProperties = {
-  color: "black",
-};
-
-const windowBodyStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  height: "100%",
-};
-
-const searchHeaderStyle: React.CSSProperties = {
-  flexShrink: 0,
-  paddingBottom: "0.5rem",
-};
-
-const scrollContainerStyle: React.CSSProperties = {
-  overflowY: "auto",
-  flexGrow: 1,
-};

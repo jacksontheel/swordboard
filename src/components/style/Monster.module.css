@@ -1,0 +1,11 @@
+.monster-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  line-height: 1.2;
+  font-size: 1rem;
+}
+
+.monster-stats p {
+  margin: 0;
+}

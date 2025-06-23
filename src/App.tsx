@@ -38,7 +38,7 @@ function App() {
         {
           id: nextId,
           w: 3,
-          h: 4,
+          h: 6,
           x: nextAvailable.x,
           y: nextAvailable.y,
           content: monster,
@@ -56,7 +56,7 @@ function App() {
         {
           id: nextId,
           w: 3,
-          h: 2,
+          h: 3,
           x: nextAvailable.x,
           y: nextAvailable.y,
           content: torchTimerContent,
@@ -129,7 +129,7 @@ const layoutStyle: React.CSSProperties = {
 
 const mainStyle: React.CSSProperties = {
   flex: 1,
-  padding: "1rem",
+  overflow: "hidden",
 };
 
 export default App;

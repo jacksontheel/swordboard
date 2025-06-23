@@ -1,8 +1,9 @@
-import "98.css";
 import type { CSSProperties } from "react";
 import type { Monster } from "../../models/monster";
 import { DiceText } from "../DiceText";
 import { ToHitButton } from "../ToHitButton";
+import panelStyles from "../style/Panel.module.css";
+import monsterStyles from "../style/Monster.module.css";
 
 export type MonsterPanelProps = {
   monster: Monster;
@@ -15,113 +16,99 @@ export function MonsterPanel({ monster, closeCallback }: MonsterPanelProps) {
   };
 
   return (
-    <div className="window" style={windowStyle}>
-      <div className="title-bar">
-        <div className="title-bar-text">Monster: {monster.name}</div>
-        <div className="title-bar-controls">
+    <div className={panelStyles["ink-panel"]} style={windowStyle}>
+      <div className={`${panelStyles["ink-header"]} ink-header`}>
+        <div className={panelStyles["ink-header-title"]}>
+          Monster: {monster.name}
+        </div>
+        <div className={panelStyles["ink-header-controls"]}>
           <button
+            className={panelStyles["ink-button"]}
             aria-label="Close"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={closeCallback}
-          />
+          >
+            ✕
+          </button>
         </div>
       </div>
 
-      <div className="window-body" style={windowBodyStyle}>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1rem",
-            alignItems: "center",
-          }}
-        >
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>HP:</strong> <span>{monster.hp}</span>
+      <div className={panelStyles["ink-body"]} style={windowBodyStyle}>
+        <div className={monsterStyles["monster-stats"]}>
+          <p>
+            <strong>HP:</strong> {monster.hp}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>AC:</strong> <span>{monster.ac}</span>
+          <p>
+            <strong>AC:</strong> {monster.ac}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>MV:</strong> <span>{monster.movement}</span>
+          <p>
+            <strong>MV:</strong> {monster.movement}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>AL:</strong> <span>{monster.alignment}</span>
+          <p>
+            <strong>AL:</strong> {monster.alignment}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>LV:</strong> <span>{monster.level}</span>
+          <p>
+            <strong>LV:</strong> {monster.level}
           </p>
         </div>
 
-        <hr></hr>
+        <hr />
 
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1rem",
-            alignItems: "center",
-          }}
-        >
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>Strength:</strong>{" "}
-            <span>{bonusToString(monster.stats.strength)}</span>
+        <div className={monsterStyles["monster-stats"]}>
+          <p>
+            <strong>Strength:</strong> {bonusToString(monster.stats.strength)}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>Dexterity:</strong>{" "}
-            <span>{bonusToString(monster.stats.dexterity)}</span>
+          <p>
+            <strong>Dexterity:</strong> {bonusToString(monster.stats.dexterity)}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
+          <p>
             <strong>Constitution:</strong>{" "}
-            <span>{bonusToString(monster.stats.constitution)}</span>
+            {bonusToString(monster.stats.constitution)}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
+          <p>
             <strong>Intelligence:</strong>{" "}
-            <span>{bonusToString(monster.stats.intelligence)}</span>
+            {bonusToString(monster.stats.intelligence)}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>Wisdom:</strong>{" "}
-            <span>{bonusToString(monster.stats.wisdom)}</span>
+          <p>
+            <strong>Wisdom:</strong> {bonusToString(monster.stats.wisdom)}
           </p>
-          <p style={{ margin: 0, lineHeight: "1.2" }}>
-            <strong>Charisma:</strong>{" "}
-            <span>{bonusToString(monster.stats.charisma)}</span>
+          <p>
+            <strong>Charisma:</strong> {bonusToString(monster.stats.charisma)}
           </p>
         </div>
 
-        <hr></hr>
+        <hr />
 
         <p>
           <strong>Attacks</strong>
         </p>
         <ul>
-          {monster.attacks.map((a) => {
-            return (
-              <li key={a.name}>
-                {a.perRound} <strong>{a.name}</strong>{" "}
-                {a.range != null ? `(${a.range})` : ``}{" "}
-                {a.toHit != null && <ToHitButton toHit={a.toHit} text={bonusToString(a.toHit)}></ToHitButton> }
-                {a.description && <DiceText text={a.description}></DiceText>}
-              </li>
-            );
-          })}
+          {monster.attacks.map((a) => (
+            <li key={a.name}>
+              {a.perRound} <strong>{a.name}</strong>{" "}
+              {a.range ? `(${a.range})` : ""}{" "}
+              {a.toHit != null && (
+                <ToHitButton toHit={a.toHit} text={bonusToString(a.toHit)} />
+              )}{" "}
+              {a.description && <DiceText text={a.description} />}
+            </li>
+          ))}
         </ul>
 
-        {monster.abilities != null && monster.abilities.length > 0 && (
-          <p>
-            <strong>Abilities</strong>
-          </p>
+        {monster.abilities != null && monster.abilities?.length > 0 && (
+          <>
+            <p>
+              <strong>Abilities</strong>
+            </p>
+            <ul>
+              {monster.abilities.map((a) => (
+                <li key={a.name}>
+                  <strong>{a.name}</strong>: <DiceText text={a.description} />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
-        <ul>
-          {monster.abilities?.map((a) => {
-            return (
-              <li key={a.name}>
-                <strong>{a.name}</strong>:{" "}
-                {<DiceText text={a.description}></DiceText>}
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </div>
   );
@@ -136,5 +123,5 @@ const windowStyle: CSSProperties = {
 const windowBodyStyle: CSSProperties = {
   overflow: "auto",
   height: "calc(100% - 30px)",
-  paddingRight: "0.5rem",
+  padding: "1rem",
 };

@@ -1,0 +1,112 @@
+.catalog-section {
+  position: relative;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #fff;
+}
+
+.catalog-toggle-button {
+  width: 100%;
+  color: #000;
+  text-align: left;
+  font-weight: bold;
+  font-family: "EB Garamond", sans-serif;
+  background: none;
+  border: 2px solid #000;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.catalog-toggle-button-expanded {
+  border-radius: 6px 6px 0px 0px;
+}
+
+.catalog-toggle-button:hover {
+  background: #000;
+  color: #fff;
+}
+
+.catalog-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.catalog-item-container:last-child {
+  border-radius: 0px 0px 6px 6px;
+}
+
+.compact-button {
+  min-width: 0px;
+  padding: 0.1rem 0.4rem;
+}
+
+.ink-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #fff;
+  border-left: 2px solid #000;
+  box-shadow: -6px 0 12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: width 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.ink-sidebar-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  font-family: "EB Garamond", sans-serif;
+}
+
+.catalog-search {
+  flex-shrink: 0;
+  padding-bottom: 0.5rem;
+}
+
+.catalog-search label {
+    color: #000;
+}
+
+.catalog-search-input {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.25rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+}
+
+.catalog-scroll {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 5rem;
+}
+
+.ink-sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  z-index: 1001;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  font-family: "EB Garamond", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: right 0.3s ease;
+}

@@ -1,4 +1,6 @@
 import type { PanelContent } from "../../models/panelContent";
+import panelStyles from "../style/Panel.module.css";
+import catalogStyles from "../style/Catalog.module.css";
 
 export type CatalogSectionProps<T extends PanelContent> = {
   title: string;
@@ -13,50 +15,34 @@ export function CatalogSection<T extends PanelContent>(
   props: CatalogSectionProps<T>,
 ) {
   return (
-    <div style={{ position: "relative" }}>
-      <div style={stickySectionHeaderStyle}>
+    <div className={catalogStyles["catalog-section"]}>
+      <div className={catalogStyles["catalog-header sticky-header"]}>
         <button
           onClick={() => props.setExpanded(!props.expanded)}
-          style={sectionHeaderButtonStyle}
+          className={`${catalogStyles["catalog-toggle-button"]} ${props.expanded && props.panelContent.length > 0 ? catalogStyles["catalog-toggle-button-expanded"] : ""}`}
         >
           {props.expanded ? "▼" : "▶"} {props.title}
         </button>
       </div>
-      {props.expanded &&
-        props.panelContent.map((t) => (
-          <div key={t.name} className="window">
-            <div className="window-body">
-              <div style={monsterBoxStyle}>
+      <div>
+        {props.expanded &&
+          props.panelContent.map((t) => (
+            <div
+              key={t.name}
+              className={`${panelStyles["ink-panel"]} ${catalogStyles["catalog-item-container"]}`}
+            >
+              <div className={catalogStyles["catalog-item"]}>
                 <p>{props.panelTextFunction(t)}</p>
                 <button
                   onClick={() => props.addPanelFunction(t)}
-                  style={addMonsterButton}
+                  className={`${panelStyles["ink-button"]} ${catalogStyles["compact-button"]}}`}
                 >
                   +
                 </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+      </div>
     </div>
   );
 }
-
-const monsterBoxStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-};
-
-const addMonsterButton: React.CSSProperties = {
-  minWidth: "0px",
-};
-
-const sectionHeaderButtonStyle: React.CSSProperties = {
-  width: "100%",
-};
-
-const stickySectionHeaderStyle: React.CSSProperties = {
-  position: "sticky",
-  top: 0,
-};

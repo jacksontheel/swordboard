@@ -1,23 +1,9 @@
-import React from "react";
+import headerStyles from "./style/Header.module.css"
 
 export function NavBar() {
   return (
-    <nav style={styles.nav}>
-      <div style={styles.title}>Sword Board</div>
+    <nav className={headerStyles["ink-navbar"]}>
+      <div className={headerStyles["ink-navbar-title"]}>Sword Board</div>
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    padding: "1rem",
-    backgroundColor: "#222",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-  } as React.CSSProperties,
-  title: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-  } as React.CSSProperties,
-};

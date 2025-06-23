@@ -94,7 +94,7 @@ export function PanelGrid<T extends PanelContent>(props: PanelGridProps<T>) {
         isResizable
         isDraggable
         useCSSTransforms
-        draggableHandle=".title-bar"
+        draggableHandle=".ink-header"
         onBreakpointChange={(_, colSize) => props.setColSize(colSize)}
         onLayoutChange={(layout) => {
           props.setPanels((prev) =>
