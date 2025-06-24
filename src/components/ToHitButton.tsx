@@ -1,5 +1,5 @@
 import { useState } from "react";
-import panelStyles from "./style/Panel.module.css"
+import panelStyles from "./style/Panel.module.css";
 
 type ToHitButtonProps = {
   text: string;

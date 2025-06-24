@@ -1,4 +1,4 @@
-import headerStyles from "./style/Header.module.css"
+import headerStyles from "./style/Header.module.css";
 
 export function NavBar() {
   return (

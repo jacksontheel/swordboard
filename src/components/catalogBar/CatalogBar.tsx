@@ -44,31 +44,31 @@ export function CatalogBar(props: CatalogBarProps) {
                 <hr />
               </div>
 
-                <div className={catalogStyles["catalog-scroll"]}>
-                  <CatalogSection
-                    title={"Misc"}
-                    expanded={showMisc}
-                    setExpanded={setShowMisc}
-                    panelContent={[torchTimerContent].filter((t) =>
-                      t.name.toLowerCase().includes(filter.toLowerCase()),
-                    )}
-                    addPanelFunction={props.addTorchTimerPanel}
-                    panelTextFunction={(pc: PanelContent) => pc.name}
-                  />
+              <div className={catalogStyles["catalog-scroll"]}>
+                <CatalogSection
+                  title={"Misc"}
+                  expanded={showMisc}
+                  setExpanded={setShowMisc}
+                  panelContent={[torchTimerContent].filter((t) =>
+                    t.name.toLowerCase().includes(filter.toLowerCase()),
+                  )}
+                  addPanelFunction={props.addTorchTimerPanel}
+                  panelTextFunction={(pc: PanelContent) => pc.name}
+                />
 
-                  <CatalogSection
-                    title={"Monsters"}
-                    expanded={showMonsters}
-                    setExpanded={setShowMonsters}
-                    panelContent={props.monsters.filter(
-                      (m) =>
-                        Number(filter) === m.level ||
-                        m.name.toLowerCase().includes(filter.toLowerCase()),
-                    )}
-                    addPanelFunction={props.addMonsterPanel}
-                    panelTextFunction={(m: Monster) => `${m.name}, ${m.level}`}
-                  />
-                </div>
+                <CatalogSection
+                  title={"Monsters"}
+                  expanded={showMonsters}
+                  setExpanded={setShowMonsters}
+                  panelContent={props.monsters.filter(
+                    (m) =>
+                      Number(filter) === m.level ||
+                      m.name.toLowerCase().includes(filter.toLowerCase()),
+                  )}
+                  addPanelFunction={props.addMonsterPanel}
+                  panelTextFunction={(m: Monster) => `${m.name}, ${m.level}`}
+                />
+              </div>
             </>
           )}
         </div>

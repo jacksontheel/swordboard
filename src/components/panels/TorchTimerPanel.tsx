@@ -57,27 +57,35 @@ export function TorchTimerPanel(props: TorchTimerPanelProps) {
           <strong>{formatTime(seconds)}</strong>
         </p>
         <div style={buttonRowStyle}>
-          <button
-            className={panelStyles["ink-button"]}
-            onClick={() => setRunning((prev) => !prev)}
-          >
-            {running ? "Pause" : "Play"}
-          </button>
-          <button
-            className={panelStyles["ink-button"]}
-            onClick={() => setSeconds(60 * 60)}
-          >
-            Reset
-          </button>
-          <div>
+          <div style={buttonColumnStyle}>
             <button
               className={panelStyles["ink-button"]}
+              style={fullHeightButtonStyle}
+              onClick={() => setRunning((prev) => !prev)}
+            >
+              {running ? "Pause" : "Play"}
+            </button>
+          </div>
+          <div style={buttonColumnStyle}>
+            <button
+              className={panelStyles["ink-button"]}
+              style={fullHeightButtonStyle}
+              onClick={() => setSeconds(60 * 60)}
+            >
+              Reset
+            </button>
+          </div>
+          <div style={buttonColumnStyle}>
+            <button
+              className={panelStyles["ink-button"]}
+              style={halfHeightButtonStyle}
               onClick={() => adjustTime(300)}
             >
               +5 min
             </button>
             <button
               className={panelStyles["ink-button"]}
+              style={halfHeightButtonStyle}
               onClick={() => adjustTime(-300)}
             >
               -5 min
@@ -111,4 +119,22 @@ const buttonRowStyle: React.CSSProperties = {
   gap: "1rem",
   maxWidth: "300px",
   margin: "0 auto",
+};
+
+const buttonColumnStyle: React.CSSProperties = {
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+  alignItems: "center",
+};
+
+const fullHeightButtonStyle: React.CSSProperties = {
+  height: "100%",
+  width: "100%",
+};
+
+const halfHeightButtonStyle: React.CSSProperties = {
+  height: "50%",
+  width: "100%",
 };
